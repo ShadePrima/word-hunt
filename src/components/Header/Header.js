@@ -8,8 +8,7 @@ import React from "react";
 import "./Header.css";
 import categories from "../../data/category";
 
-const Header = ({ category, setCategory }) => {
-  console.log(category);
+const Header = ({ category, setCategory, word, setWord }) => {
   const darkTheme = createTheme({
     palette: {
       primary: {
@@ -19,18 +18,28 @@ const Header = ({ category, setCategory }) => {
     },
   });
 
+  const handleChange = (Lenguage) => {
+    setCategory(Lenguage);
+    setWord("");
+  };
+
   return (
     <div className="header">
-      <span className="title">Word Hunt</span>
+      <span className="title">{word ? word : "Word Hunt"}</span>
       <div className="inputs">
         <ThemeProvider theme={darkTheme}>
-          <TextField id="standard-basic" label="Standard" />
           <TextField
-            id="standard-select-currency"
+            className="search"
+            label="Search a word"
+            value={word}
+            onChange={(event) => setWord(event.target.value)}
+          />
+          <TextField
+            className="select"
             select
-            label="Select"
+            label="Lenguage"
             value={category}
-            onChange={(event) => setCategory(event.target.value)}
+            onChange={(event) => handleChange(event.target.value)}
             helperText="Please select your currency"
           >
             {categories.map((option) => (

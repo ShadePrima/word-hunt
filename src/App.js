@@ -8,12 +8,11 @@ function App() {
   const [word, setWord] = React.useState("");
   const [meanings, setMeanings] = React.useState([]);
   const [category, setCategory] = React.useState("en");
-  console.log(category, "app");
 
   const dictionaryApi = async () => {
     try {
       const data = await axios.get(
-        "https://api.dictionaryapi.dev/api/v2/entries/en/dog"
+        `https://api.dictionaryapi.dev/api/v2/entries/${category}/${word}`
       );
       setMeanings(data.data);
     } catch (error) {
@@ -21,9 +20,11 @@ function App() {
     }
   };
 
+  console.log(meanings);
+
   React.useEffect(() => {
     dictionaryApi();
-  }, []);
+  }, [word, category]);
 
   return (
     <div
@@ -33,7 +34,12 @@ function App() {
         maxWidth="md"
         style={{ display: "flex", flexDirection: "column", height: "100vh" }}
       >
-        <Header category={category} setCategory={setCategory} />
+        <Header
+          category={category}
+          setCategory={setCategory}
+          word={word}
+          setWord={setWord}
+        />
       </Container>
     </div>
   );
